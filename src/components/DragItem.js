@@ -30,7 +30,7 @@ export default class DragItem extends Component {
                 <View style={{ position: "absolute" }}>
                     <Animated.View
                         {...panResponder.panHandlers}
-                        style={[{transform: this.state.pan.getTranslateTransform()}, { width: itemSize, height: itemSize, borderRadius: itemSize / 2, opacity: this.state.opacity }]}  >
+                        style={[{ transform: this.state.pan.getTranslateTransform() }, { width: itemSize, height: itemSize, borderRadius: itemSize / 2, opacity: this.state.opacity, overflow: 'hidden' }]}  >
 
                         <Image
                             source={img}
