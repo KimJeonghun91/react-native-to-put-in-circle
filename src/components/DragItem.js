@@ -10,26 +10,20 @@ export default class DragItem extends Component {
             dropAreaValues: null,
             pan: new Animated.ValueXY(),
             opacity: new Animated.Value(1),
-            panResponder: null
+            isRollback: false
         };
-
-        this.state.panResponder = PanResponder.create({
-            onStartShouldSetPanResponder: (e, gesture) => false,
-        });
     }
 
     render() {
-        const { pX, pY, itemSize, isRollback, img } = this.props;
-        const { panResponder, showDraggable } = this.state;
+        const { pX, pY, itemSize, img } = this.props;
+        const { showDraggable } = this.state;
 
         // * 부모에게 받은 좌표로 뷰 이동
         this.state.pan.setOffset({ x: pX, y: pY })
 
         return (
-            (panResponder !== null && typeof (panResponder) !== 'undefined' && showDraggable) ? (
                 <View style={{ position: "absolute" }}>
                     <Animated.View
-                        {...panResponder.panHandlers}
                         style={[{ transform: this.state.pan.getTranslateTransform() }, { width: itemSize, height: itemSize, borderRadius: itemSize / 2, opacity: this.state.opacity, overflow: 'hidden' }]}  >
 
                         <Image
@@ -38,9 +32,6 @@ export default class DragItem extends Component {
                         />
                     </Animated.View>
                 </View>
-            ) : (
-                    <></>
-                )
         );
     }
 

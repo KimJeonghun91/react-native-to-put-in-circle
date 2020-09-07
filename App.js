@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { SafeAreaView, StyleSheet, Dimensions, View, Animated } from 'react-native';
+import { SafeAreaView, StyleSheet, Dimensions, View, Animated, Platform } from 'react-native';
 import DragItem from './src/components/DragItem';
 import DecoItem from './src/components/DecoItem';
 
@@ -16,8 +16,8 @@ export default class App extends React.PureComponent {
     super(props)
     this.state = {
       canvasSize: Dimensions.get('window').width - 40,
-      canvasMarginTop: 20,
-      canvasMarginLeft: 20,
+      canvasMarginTop: Platform.OS === 'android' ? 20 : 60,
+      canvasMarginLeft:20,
       arrDragItem: [],
       centerX: 0,
       centerY: 0,
@@ -136,7 +136,7 @@ export default class App extends React.PureComponent {
 
 
           {/* ******************************* 캔버스 ******************************* */}
-          <View style={{ width: canvasSize, height: canvasSize, borderRadius: (canvasSize) / 2, backgroundColor: '#ff00ff', marginTop: canvasMarginTop, marginLeft: canvasMarginLeft }}
+          <View style={{ width: canvasSize, height: canvasSize, borderRadius: (canvasSize) / 2, backgroundColor: '#ff00ff', position: 'absolute', top: canvasMarginTop, left: canvasMarginLeft }}
             onLayout={this._viewInitEvent}>
 
             {/* ******************************* 캔버스 내 복사된 아이템 ******************************* */}
@@ -152,7 +152,7 @@ export default class App extends React.PureComponent {
 
 
           {/* ******************************* 아이템 리스트 ******************************* */}
-          <View style={{ width: '100%', height: 80, marginTop: 50, backgroundColor: '#0000ff', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row' }}>
+          <View style={{ width: '100%', height: 80, backgroundColor: '#0000ff', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row', marginTop: canvasSize + 50 }}>
 
             <DecoItem img={require("./src/img/ic_heart_solid.png")} size={30} selectItem={selectItem} _setSelectItem={this._setSelectItem} />
             <DecoItem img={require("./src/img/ic_star_bk.png")} size={50} selectItem={selectItem} _setSelectItem={this._setSelectItem} />
@@ -168,11 +168,6 @@ export default class App extends React.PureComponent {
               <DragItem pX={(touchRTx - (selectItem.size / 2))} pY={touchRTy - (selectItem.size / 2)} img={selectItem.img} itemSize={selectItem.size} isRollback={selectItem === null ? true : false} />
             )
           }
-
-
-
-          <View style={{ position: 'absolute', width: 5, height: 5, marginLeft: 20, marginTop: 20, backgroundColor: '#00ff00' }}></View>
-          <View style={{ position: 'absolute', width: 5, height: 5, marginLeft: 170, marginTop: 170, backgroundColor: '#00ff00' }}></View>
         </SafeAreaView>
       </View>
     );
